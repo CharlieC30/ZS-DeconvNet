@@ -1,32 +1,69 @@
+# Python cache and compiled files
 **/__pycache__/
-.vscode/
-.idea/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+*.whl
+
+# Virtual environments
 .venv/
 venv/
 env/
-.DS_Store
+ENV/
 
+# IDE and editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Backup and temporary files
+*.zip
+*.tar.gz
+*.tar
+*.bak
+*.tmp
+*.log
+*-backup/
+*_backup/
+
+# Project-specific data directories
 Python_MATLAB_Codes/saved_models
 Python_MATLAB_Codes/train_inference_python/data
 Python_MATLAB_Codes/train_inference_python/my_models_3d
 Python_MATLAB_Codes/your_augmented_datasets
 Python_MATLAB_Codes/train_inference_python/augmented_datasets_2d
 
+# PyTorch directories (archived experiments)
 PyTorch_Deconv/
-# PyTorch_Deconv/Data/Output/
-# PyTorch_Deconv/Data/InferenceInput/
-# PyTorch_Deconv/Data/InferenceResult/
-# PyTorch_Deconv/Data/PSF/
-# PyTorch_Deconv/Data/Train/
-# PyTorch_Deconv/experiments/*/
-# PyTorch_Deconv/Data/063025/
-
 PyTorch_3d/
-# PyTorch_3d/data
 
+# PSF outputs (regenerable)
 Python_PSF/PSFoutput/
 Python_PSF/PSFtest/
 
-Raw_Data
-Screenshot
-Vibe_coding_prompt
+# Raw data and media
+Raw_Data/
+Screenshots/
+Vibe_coding_prompt/

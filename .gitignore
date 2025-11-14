@@ -1,69 +1,57 @@
 # Python cache and compiled files
-**/__pycache__/
-*.pyc
-*.pyo
-*.pyd
+__pycache__/
+*.py[cod]
 *.so
 *.egg
 *.egg-info/
-.eggs/
 dist/
 build/
-*.whl
 
 # Virtual environments
 .venv/
 venv/
 env/
-ENV/
 
-# IDE and editor
+# IDE
 .vscode/
 .idea/
 *.swp
-*.swo
 *~
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Jupyter Notebook
+# Jupyter
 .ipynb_checkpoints/
-*.ipynb_checkpoints
 
-# Testing and coverage
+# Testing
 .pytest_cache/
 .coverage
-htmlcov/
-.tox/
 
-# Backup and temporary files
-*.zip
-*.tar.gz
-*.tar
+# Backup files
 *.bak
 *.tmp
 *.log
-*-backup/
-*_backup/
 
-# Project-specific data directories
-Python_MATLAB_Codes/saved_models
-Python_MATLAB_Codes/train_inference_python/data
-Python_MATLAB_Codes/train_inference_python/my_models_3d
-Python_MATLAB_Codes/your_augmented_datasets
-Python_MATLAB_Codes/train_inference_python/augmented_datasets_2d
+# Project data directories
+Python_MATLAB_Codes/saved_models/
+Python_MATLAB_Codes/train_inference_python/data/
+Python_MATLAB_Codes/train_inference_python/my_models_3d/
+Python_MATLAB_Codes/your_augmented_datasets/
+Python_MATLAB_Codes/train_inference_python/augmented_datasets_2d/
 
-# PyTorch directories (archived experiments)
+# PyTorch directories
 PyTorch_Deconv/
 PyTorch_3d/
 
-# PSF outputs (regenerable)
+# PSF outputs
 Python_PSF/PSFoutput/
 Python_PSF/PSFtest/
 
-# Raw data and media
-Raw_Data/
-Screenshots/
-Vibe_coding_prompt/
+# Raw_Data with fine-grained control for FromGary
+Raw_Data/*
+!Raw_Data/FromGary/
+Raw_Data/FromGary/input/
+Raw_Data/FromGary/test_Fiji_GaussianBlur/
+!Raw_Data/FromGary/sample_data/

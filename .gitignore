@@ -45,9 +45,17 @@ Python_MATLAB_Codes/train_inference_python/augmented_datasets_2d/
 PyTorch_Deconv/
 PyTorch_3d/
 
-# PSF outputs
-Python_PSF/PSFoutput/
-Python_PSF/PSFtest/
+# PSF outputs - ignore generated files but keep structure
+Python_PSF/PSFoutput/**/*.tif
+Python_PSF/PSFoutput/**/*.tiff
+!Python_PSF/PSFoutput/**/.gitkeep
+!Python_PSF/PSFoutput/other/*.tif
+!Python_PSF/PSFoutput/other/*.tiff
+!Python_PSF/PSFoutput/other/note.txt
+
+Python_PSF/PSFtest/**/*.tif
+Python_PSF/PSFtest/**/*.tiff
+!Python_PSF/PSFtest/**/.gitkeep
 
 # Raw_Data with fine-grained control for FromGary
 Raw_Data/*
@@ -55,3 +63,5 @@ Raw_Data/*
 Raw_Data/FromGary/input/
 Raw_Data/FromGary/test_Fiji_GaussianBlur/
 !Raw_Data/FromGary/sample_data/
+Raw_Data/FromGary/sample_data/*.tif
+Raw_Data/FromGary/sample_data/*.tiff

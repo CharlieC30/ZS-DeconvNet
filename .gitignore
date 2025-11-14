@@ -65,5 +65,6 @@ Raw_Data/FromGary/input/
 Raw_Data/FromGary/test_Fiji_GaussianBlur/
 !Raw_Data/FromGary/sample_data/
 !Raw_Data/FromGary/sample_data/.gitkeep
+!Raw_Data/FromGary/sample_data/*.md
 Raw_Data/FromGary/sample_data/*.tif
 Raw_Data/FromGary/sample_data/*.tiff

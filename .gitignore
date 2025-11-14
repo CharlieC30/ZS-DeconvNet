@@ -10,6 +10,7 @@ Python_MATLAB_Codes/saved_models
 Python_MATLAB_Codes/train_inference_python/data
 Python_MATLAB_Codes/train_inference_python/my_models_3d
 Python_MATLAB_Codes/your_augmented_datasets
+Python_MATLAB_Codes/train_inference_python/augmented_datasets_2d
 
 PyTorch_Deconv/
 # PyTorch_Deconv/Data/Output/

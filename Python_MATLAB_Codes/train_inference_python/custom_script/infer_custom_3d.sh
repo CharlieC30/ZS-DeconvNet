@@ -1,6 +1,6 @@
-cd /home/aero/charliechang/projects/ZS-DeconvNet/Python_MATLAB_Codes/train_inference_python
+cd "$(dirname "$0")/.."
 
-source ~/anaconda3/etc/profile.d/conda.sh
+source "$(conda info --base)/etc/profile.d/conda.sh" 2>/dev/null || source ~/anaconda3/etc/profile.d/conda.sh
 conda activate zs-deconvnet
 
 export TF_FORCE_GPU_ALLOW_GROWTH=true

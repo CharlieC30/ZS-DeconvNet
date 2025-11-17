@@ -1,32 +1,73 @@
-**/__pycache__/
-.vscode/
-.idea/
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
 .venv/
 venv/
 env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS files
 .DS_Store
+Thumbs.db
 
-Python_MATLAB_Codes/saved_models
-Python_MATLAB_Codes/train_inference_python/data
-Python_MATLAB_Codes/train_inference_python/my_models_3d
-Python_MATLAB_Codes/your_augmented_datasets
-Python_MATLAB_Codes/train_inference_python/augmented_datasets_2d
+# Jupyter
+.ipynb_checkpoints/
 
+# Testing
+.pytest_cache/
+.coverage
+
+# Backup files
+*.bak
+*.tmp
+*.log
+
+# Project data directories
+Python_MATLAB_Codes/saved_models/
+Python_MATLAB_Codes/your_augmented_datasets/
+
+# Training data and models - ignore files but preserve directory structure
+Python_MATLAB_Codes/train_inference_python/augmented_datasets/**/*
+!Python_MATLAB_Codes/train_inference_python/augmented_datasets/**/.gitkeep
+Python_MATLAB_Codes/train_inference_python/trained_models/**/*
+!Python_MATLAB_Codes/train_inference_python/trained_models/**/.gitkeep
+
+# PyTorch directories
 PyTorch_Deconv/
-# PyTorch_Deconv/Data/Output/
-# PyTorch_Deconv/Data/InferenceInput/
-# PyTorch_Deconv/Data/InferenceResult/
-# PyTorch_Deconv/Data/PSF/
-# PyTorch_Deconv/Data/Train/
-# PyTorch_Deconv/experiments/*/
-# PyTorch_Deconv/Data/063025/
-
 PyTorch_3d/
-# PyTorch_3d/data
 
-Python_PSF/PSFoutput/
-Python_PSF/PSFtest/
+# PSF outputs - ignore generated files but keep structure
+Python_PSF/PSFoutput/**/*.tif
+Python_PSF/PSFoutput/**/*.tiff
+!Python_PSF/PSFoutput/**/.gitkeep
+!Python_PSF/PSFoutput/other/*.tif
+!Python_PSF/PSFoutput/other/*.tiff
+!Python_PSF/PSFoutput/other/note.txt
 
-Raw_Data
-Screenshot
-Vibe_coding_prompt
+Python_PSF/PSFtest/**/*.tif
+Python_PSF/PSFtest/**/*.tiff
+!Python_PSF/PSFtest/**/.gitkeep
+
+# Raw_Data with fine-grained control for FromGary
+Raw_Data/*
+!Raw_Data/FromGary/
+!Raw_Data/FromGary/.gitkeep
+Raw_Data/FromGary/input/
+Raw_Data/FromGary/test_Fiji_GaussianBlur/
+!Raw_Data/FromGary/sample_data/
+!Raw_Data/FromGary/sample_data/.gitkeep
+!Raw_Data/FromGary/sample_data/*.md
+Raw_Data/FromGary/sample_data/*.tif
+Raw_Data/FromGary/sample_data/*.tiff

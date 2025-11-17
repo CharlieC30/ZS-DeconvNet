@@ -128,8 +128,8 @@ def estimate_beta2(data_path: str, bg: float = 100, thresh: float = 0.005) -> Tu
         data = read_image_file(img_path)
         data = data.astype(np.float32)
 
-        # 如果是 3D，選擇中間 Z 切片來估計
-        # 使用 tifffile 預設慣例：(Z, Y, X)
+        # For 3D images, use middle Z-slice for estimation
+        # Using tifffile default convention: (Z, Y, X)
         if len(data.shape) == 3:
             shape = data.shape
             mid_z = shape[0] // 2
@@ -240,13 +240,13 @@ def data_segmentation_for_train(data_l: np.ndarray,
           - W: patch_x
         Note: This is different from MATLAB's (H, W, N) output order
     """
-    # 獲取影像尺寸 (Y, X)
+    # Get image dimensions (Y, X)
     size_y, size_x = data_l.shape[:2]
 
-    # 確保輸入是 2D（加了 newaxis 變成 3D，所以是 Y x X x 1）
+    # Ensure input is 2D (with newaxis becomes 3D: Y x X x 1)
     assert data_l.shape[2] == 1, f"Expected 2D input (Y,X,1), got {data_l.shape}"
 
-    # gt 應該是 2D (Y, X)
+    # GT should be 2D (Y, X)
     assert len(gt.shape) == 2, f"Expected 2D gt, got {gt.shape}"
 
     size_y_gt = gt.shape[0]
@@ -298,8 +298,8 @@ def data_segmentation_for_train(data_l: np.ndarray,
 
     for _ in range(num_seg):
         p = np.random.randint(0, num_points)
-        center_y = point_list[p, 0]  # Y 座標在第一列
-        center_x = point_list[p, 1]  # X 座標在第二列
+        center_y = point_list[p, 0]  # Y coordinate in first column
+        center_x = point_list[p, 1]  # X coordinate in second column
 
         y1 = center_y - half_y
         y2 = center_y + half_y
@@ -327,7 +327,7 @@ def data_segmentation_for_train(data_l: np.ndarray,
 
         if rot_flag >= 1:
             degree = np.random.randint(0, 360)
-            # 注意：NumPy 陣列索引是 [Y, X]，但我們的變數是 y1, y2, x1, x2
+            # Note: NumPy array indexing is [Y, X], variables are y1, y2, x1, x2
             patch_l = np.sum(data_l[y1:y2+1, x1:x2+1], axis=2)
             patch_h = np.sum(data_h[y1:y2+1, x1:x2+1], axis=2)
             # Fixed: order=1 for bilinear interpolation (matching MATLAB's 'bilinear')
@@ -464,12 +464,12 @@ def DataAugmFor2d_python(data_path: str,
         beta1_desc = f"{beta1[0]}" if beta1[0] == beta1[1] else f"{beta1[0]}-{beta1[1]}"
         beta2_desc = f"{beta2[0]:.1f}" if beta2[0] == beta2[1] else f"{beta2[0]:.1f}-{beta2[1]:.1f}"
         alpha_desc = f"{alpha[0]}" if alpha[0] == alpha[1] else f"{alpha[0]}-{alpha[1]}"
-        output_dir = f"./augmented_datasets_2d/beta1_{beta1_desc}_beta2_{beta2_desc}_alpha{alpha_desc}_SegNum{total_seg_num}/"
+        output_dir = f"./augmented_datasets/augmented_datasets_2d/beta1_{beta1_desc}_beta2_{beta2_desc}_alpha{alpha_desc}_SegNum{total_seg_num}/"
 
     input_dir = os.path.join(output_dir, "input")
     gt_dir = os.path.join(output_dir, "gt")
 
-    os.makedirs("./augmented_datasets_2d", exist_ok=True)
+    os.makedirs("./augmented_datasets/augmented_datasets_2d", exist_ok=True)
     os.makedirs(output_dir, exist_ok=True)
 
     if os.path.exists(input_dir):
@@ -498,16 +498,16 @@ def DataAugmFor2d_python(data_path: str,
         data_raw_orig = read_image_file(img_path)
         data_raw_orig = data_raw_orig.astype(np.float32)
 
-        # 判斷並處理 2D/3D 輸入
+        # Detect and handle 2D/3D input
         # NOTE: 3D slice processing is a Python-specific extension not present in the original MATLAB version.
         # The original MATLAB DataAugmFor2D only processes 2D images.
         # This extension automatically processes each Z-slice of 3D images independently.
         if len(data_raw_orig.shape) == 2:
-            # 2D 影像 (Y, X)：直接處理
+            # 2D image (Y, X): process directly
             data_slices = [(data_raw_orig, None)]  # (data, slice_index)
             print(f"Processing 2D image (Y={data_raw_orig.shape[0]}, X={data_raw_orig.shape[1]}): {os.path.basename(img_path)}")
         elif len(data_raw_orig.shape) == 3:
-            # 3D 影像：使用 tifffile 預設慣例 (Z, Y, X) 格式
+            # 3D image: using tifffile default convention (Z, Y, X)
             # [Python Extension] This feature extends beyond MATLAB's original functionality
             shape = data_raw_orig.shape
             num_slices = shape[0]
@@ -518,7 +518,7 @@ def DataAugmFor2d_python(data_path: str,
         else:
             raise ValueError(f"Unsupported image dimensions: {data_raw_orig.shape}")
 
-        # 對每個 Z 切片進行處理
+        # Process each Z-slice
         for data_raw, z_index in data_slices:
             if z_index is not None:
                 print(f"    Processing Z-slice {z_index+1}/{len(data_slices)}")
@@ -614,12 +614,12 @@ def DataAugmFor2d_python(data_path: str,
                     img_input = (data_seg[patch_idx] * 65535).astype(np.uint16)
                     img_gt = (data_gt_seg[patch_idx] * 65535).astype(np.uint16)
 
-                    # 調整檔名格式以包含 Z 索引（如果有的話）
+                    # Adjust filename format to include Z index (if applicable)
                     if z_index is not None:
-                        # 3D 影像的 Z 切片：包含 z 索引
+                        # Z-slice from 3D image: include z index
                         filename = f"cell{cell_idx+1:02d}_z{z_index+1:04d}_reco{reco_idx+1}_{patch_idx+1:08d}.tif"
                     else:
-                        # 2D 影像：原始格式
+                        # 2D image: original format
                         filename = f"cell{cell_idx+1:02d}_reco{reco_idx+1}_{patch_idx+1:08d}.tif"
 
                     input_path = os.path.join(input_dir, filename)

@@ -37,8 +37,12 @@ Thumbs.db
 # Project data directories
 Python_MATLAB_Codes/saved_models/
 Python_MATLAB_Codes/your_augmented_datasets/
-Python_MATLAB_Codes/train_inference_python/augmented_datasets/
-Python_MATLAB_Codes/train_inference_python/trained_models/
+
+# Training data and models - ignore files but preserve directory structure
+Python_MATLAB_Codes/train_inference_python/augmented_datasets/**/*
+!Python_MATLAB_Codes/train_inference_python/augmented_datasets/**/.gitkeep
+Python_MATLAB_Codes/train_inference_python/trained_models/**/*
+!Python_MATLAB_Codes/train_inference_python/trained_models/**/.gitkeep
 
 # PyTorch directories
 PyTorch_Deconv/

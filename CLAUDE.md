@@ -4,29 +4,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-ZS-DeconvNet is a zero-shot learning deep neural network for instant denoising and super-resolution in optical fluorescence microscopy. The current working directory is `Python_MATLAB_Codes/` which contains the main TensorFlow 2.5.0 implementation.
+ZS-DeconvNet is a zero-shot learning deep neural network for instant denoising and super-resolution in optical fluorescence microscopy. This is a customized fork of [TristaZeng/ZS-DeconvNet](https://github.com/TristaZeng/ZS-DeconvNet) with Python-based PSF generation, data augmentation (replacing MATLAB), and custom training scripts.
 
-### Directory Structure
-- `train_inference_python/`: Main Python implementation with training and inference scripts
-- `data_augment_recorrupt_matlab/`: MATLAB codes for training data generation and PSF simulation
-- `saved_models/`: Pre-trained models for different microscopy modalities
-- `your_augmented_datasets/`: Output directory for generated training datasets
+### Directory Structure (from repo root)
+- `Python_MATLAB_Codes/` — Main TensorFlow 2.5.0 implementation
+  - `train_inference_python/` — Training and inference scripts
+    - `models/` — Network architectures (U-Net 2D/3D, RCAN 3D)
+    - `utils/` — Loss functions, data loader, utilities
+    - `custom_script/` — Custom data augmentation and training/inference scripts
+    - `trained_models/` — Trained model weights (ignored by git)
+    - `augmented_datasets/` — Generated training data (ignored by git)
+  - `data_augment_recorrupt_matlab/` — Original MATLAB codes for data generation and PSF simulation
+- `Python_PSF/` — PSF generation and testing tools
+  - `generate_psf.py` — Optical (Born & Wolf) and Gaussian PSF generation
+  - `psf_test_2d.py` — 2D PSF convolution testing (PyTorch-based)
+  - `psf_test_3d.py` — 3D PSF convolution testing (SciPy-based)
+  - `PSFoutput/` — Generated PSF files
+  - `PSFtest/` — PSF test input/output
+- `Conda_env/` — Pre-configured Conda environment files (TF and PyTorch)
+- `Raw_Data/` — Experimental raw data (mostly ignored by git)
+- `Fiji_Plugin/` — Original Fiji/ImageJ plugin and model conversion tools
+- `Pytorch_2d/` — PyTorch 2D implementation (in development)
+- `Vibe_coding_prompt/` — AI coding task specifications
+- `Screenshots/` — Screenshots
 
 ## Development Commands
 
 ### Python Environment Setup
 ```bash
-# Create conda environment
-conda create -n zs-deconvnet python=3.9.7
+# Option A: Use pre-configured environment (recommended)
+cd Conda_env/
+conda env create -f zs-deconvnet_environment.yml
 conda activate zs-deconvnet
 
-# Install dependencies (from train_inference_python directory)
-cd train_inference_python
+# Option B: Manual setup
+conda create -n zs-deconvnet python=3.9.7
+conda activate zs-deconvnet
+cd Python_MATLAB_Codes/train_inference_python
 pip install -r requirements.txt
-
-# Install CUDA (if using GPU)
-conda install cudatoolkit==11.3.1
-conda install cudnn==8.2.1
+conda install cudatoolkit==11.3.1 cudnn==8.2.1
 ```
 
 ### Training Commands
@@ -65,10 +81,29 @@ python Infer_3D.py --input_dir [INPUT_PATH] --load_weights_path [WEIGHTS_PATH]
 
 ### Data Augmentation (Python)
 ```bash
-cd train_inference_python
+cd Python_MATLAB_Codes/train_inference_python
+
+# Generate augmented 2D training data
+python DataAugmFor2d_python.py --input_dir [RAW_DATA_DIR] --output_dir [OUTPUT_DIR]
 
 # Generate augmented 3D training data
 python DataAugmFor3d_python.py --input_dir [RAW_DATA_DIR] --output_dir [OUTPUT_DIR]
+
+# Custom scripts are also available in custom_script/:
+# custom_script/DataAugmFor2d_python.py  — 2D augmentation (same as above, organized copy)
+# custom_script/DataAugmFor3d_python.py  — 3D augmentation (same as above, organized copy)
+```
+
+### PSF Generation
+```bash
+cd Python_PSF/
+
+# Edit parameters in generate_psf.py for your optical setup, then run:
+python generate_psf.py
+
+# Test PSF with sample images:
+python psf_test_2d.py   # 2D convolution test
+python psf_test_3d.py   # 3D convolution test
 ```
 
 ## Architecture Overview
@@ -94,7 +129,9 @@ python DataAugmFor3d_python.py --input_dir [RAW_DATA_DIR] --output_dir [OUTPUT_D
    - `utils/augment_sim_img.py`: Data augmentation for SIM images
    - Training scripts: `Train_ZSDeconvNet_2D.py`, `Train_ZSDeconvNet_3D.py`, `Train_ZSDeconvNet_2DSIM.py`, `Train_ZSDeconvNet_3DSIM.py`
    - Inference scripts: `Infer_2D.py`, `Infer_3D.py`
-   - `DataAugmFor3d_python.py`: Python-based data augmentation for 3D datasets
+   - `DataAugmFor2d_python.py`: Python-based data augmentation for 2D datasets (replaces MATLAB)
+   - `DataAugmFor3d_python.py`: Python-based data augmentation for 3D datasets (replaces MATLAB)
+   - `custom_script/`: Custom training/inference shell scripts and data augmentation copies
 
 ### Data Structure
 Training data should be organized as:
@@ -147,7 +184,7 @@ For zero-shot training, only input images are needed with data augmentation.
 - Adjust `--batch_size` based on available memory
 
 ### Model Saving
-- Models saved in `saved_models/` (root level) or `my_models_3d/` (in train_inference_python/)
+- Models saved in `train_inference_python/trained_models/` (2D and 3D subdirectories)
 - Weights saved as `.h5` files at specified intervals
 - Configuration saved as `config.txt`
 - Logs saved to `graph/` subdirectory for TensorBoard monitoring
@@ -172,10 +209,19 @@ For zero-shot training, only input images are needed with data augmentation.
 5. **Demo scripts**: Edit absolute paths in `.sh` files before running
 6. **Data organization**: Ensure training data follows `data_dir/folder/input/` and `data_dir/folder/gt/` structure
 
+## Git Workflow
+
+- This repo is forked from [TristaZeng/ZS-DeconvNet](https://github.com/TristaZeng/ZS-DeconvNet)
+- `origin` → `CharlieC30/ZS-DeconvNet` (your fork)
+- `upstream` → `TristaZeng/ZS-DeconvNet` (original author)
+- Use `git fetch upstream` to pull original author's updates
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`
+
 ## Quick Start Workflow
 
-1. **Setup environment**: Create conda environment and install dependencies
-2. **Download data**: Get demo datasets from Google Drive and place in `saved_models/`
-3. **Test inference**: Run `./infer_demo_2D.sh` or `./infer_demo_3D.sh` (edit paths first)
-4. **Train new model**: Prepare data, edit demo training script, run training
-5. **Monitor training**: Use TensorBoard to track progress
+1. **Setup environment**: Use `Conda_env/zs-deconvnet_environment.yml` or install manually
+2. **Prepare data**: Run data augmentation scripts to generate training pairs
+3. **Generate PSF**: Use `Python_PSF/generate_psf.py` for your optical setup
+4. **Train model**: Edit and run demo training scripts from `train_inference_python/`
+5. **Run inference**: Edit and run demo inference scripts
+6. **Monitor training**: Use TensorBoard: `tensorboard --logdir [model_dir]/graph`

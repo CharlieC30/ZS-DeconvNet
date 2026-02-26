@@ -7,49 +7,55 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ZS-DeconvNet is a zero-shot learning deep neural network for instant denoising and super-resolution in optical fluorescence microscopy. This is a customized fork of [TristaZeng/ZS-DeconvNet](https://github.com/TristaZeng/ZS-DeconvNet) with Python-based PSF generation, data augmentation (replacing MATLAB), and custom training scripts.
 
 ### Directory Structure (from repo root)
+
+**Naming convention**: Uppercase = original author's code, lowercase = custom additions.
+
+**Original author's code:**
 - `Python_MATLAB_Codes/` — Main TensorFlow 2.5.0 implementation
   - `train_inference_python/` — Training and inference scripts
     - `models/` — Network architectures (U-Net 2D/3D, RCAN 3D)
     - `utils/` — Loss functions, data loader, utilities
-    - `custom_script/` — Custom data augmentation and training/inference scripts
     - `trained_models/` — Trained model weights (ignored by git)
     - `augmented_datasets/` — Generated training data (ignored by git)
   - `data_augment_recorrupt_matlab/` — Original MATLAB codes for data generation and PSF simulation
-- `Python_PSF/` — PSF generation and testing tools
+- `Fiji_Plugin/` — Original Fiji/ImageJ plugin and model conversion tools
+- `Raw_Data/` — Experimental raw data (mostly ignored by git)
+
+**Custom additions (this fork):**
+- `psf/` — PSF generation and testing tools
   - `generate_psf.py` — Optical (Born & Wolf) and Gaussian PSF generation
   - `psf_test_2d.py` — 2D PSF convolution testing (PyTorch-based)
   - `psf_test_3d.py` — 3D PSF convolution testing (SciPy-based)
-  - `PSFoutput/` — Generated PSF files
-  - `PSFtest/` — PSF test input/output
-- `Conda_env/` — Pre-configured Conda environment files (TF and PyTorch)
-- `Raw_Data/` — Experimental raw data (mostly ignored by git)
-- `Fiji_Plugin/` — Original Fiji/ImageJ plugin and model conversion tools
-- `Pytorch_2d/` — PyTorch 2D implementation (in development)
-- `Vibe_coding_prompt/` — AI coding task specifications
-- `Screenshots/` — Screenshots
+  - `output/` — Generated PSF files
+  - `test/` — PSF test input/output
+- `data_augmentation/` — Python data augmentation (replaces MATLAB)
+  - `augment_2d.py` — 2D data augmentation
+  - `augment_3d.py` — 3D data augmentation
+- `scripts/` — Custom training/inference shell scripts
+- `envs/` — Environment configuration files (Conda YAML + pip requirements)
+- `docs/` — Documentation and notes (parameter reference, upstream diff list)
+- `screenshots/` — Personal screenshots (gitignored)
 
 ## Development Commands
 
 ### Python Environment Setup
 ```bash
 # Option A: Use pre-configured environment (recommended)
-cd Conda_env/
-conda env create -f zs-deconvnet_environment.yml
+conda env create -f envs/tensorflow.yml
 conda activate zs-deconvnet
 
 # Option B: Manual setup
 conda create -n zs-deconvnet python=3.9.7
 conda activate zs-deconvnet
-cd Python_MATLAB_Codes/train_inference_python
-pip install -r requirements.txt
+pip install -r envs/requirements.txt
 conda install cudatoolkit==11.3.1 cudnn==8.2.1
 ```
 
 ### Training Commands
-All training scripts must be run from `train_inference_python/` directory:
+All training scripts must be run from `Python_MATLAB_Codes/train_inference_python/` directory:
 
 ```bash
-cd train_inference_python
+cd Python_MATLAB_Codes/train_inference_python
 
 # 2D model training
 python Train_ZSDeconvNet_2D.py --otf_or_psf_path [PSF_PATH] --data_dir [DATA_DIR] --folder [FOLDER_NAME] --test_images_path [TEST_PATH]
@@ -62,11 +68,14 @@ python Train_ZSDeconvNet_3D.py --psf_path [PSF_PATH] --data_dir [DATA_DIR] --fol
 ./train_demo_3D.sh        # 3D wide-field, confocal, LLSM data
 ./train_demo_2DSIM.sh     # 2D reconstructed SIM data
 ./train_demo_3DSIM.sh     # 3D reconstructed SIM data
+
+# Custom scripts (from repo root):
+./scripts/train_custom_3d.sh
 ```
 
 ### Inference Commands
 ```bash
-cd train_inference_python
+cd Python_MATLAB_Codes/train_inference_python
 
 # 2D inference
 python Infer_2D.py --input_dir [INPUT_PATH] --load_weights_path [WEIGHTS_PATH]
@@ -81,22 +90,16 @@ python Infer_3D.py --input_dir [INPUT_PATH] --load_weights_path [WEIGHTS_PATH]
 
 ### Data Augmentation (Python)
 ```bash
-cd Python_MATLAB_Codes/train_inference_python
-
 # Generate augmented 2D training data
-python DataAugmFor2d_python.py --input_dir [RAW_DATA_DIR] --output_dir [OUTPUT_DIR]
+python data_augmentation/augment_2d.py --input_dir [RAW_DATA_DIR]
 
 # Generate augmented 3D training data
-python DataAugmFor3d_python.py --input_dir [RAW_DATA_DIR] --output_dir [OUTPUT_DIR]
-
-# Custom scripts are also available in custom_script/:
-# custom_script/DataAugmFor2d_python.py  — 2D augmentation (same as above, organized copy)
-# custom_script/DataAugmFor3d_python.py  — 3D augmentation (same as above, organized copy)
+python data_augmentation/augment_3d.py --data_path [RAW_DATA_DIR]
 ```
 
 ### PSF Generation
 ```bash
-cd Python_PSF/
+cd psf/
 
 # Edit parameters in generate_psf.py for your optical setup, then run:
 python generate_psf.py
@@ -119,7 +122,7 @@ python psf_test_3d.py   # 3D convolution test
    - `twostage_Unet3D`: 3D U-Net based model
    - `twostage_RCAN3D`: 3D Residual Channel Attention Network
 
-3. **Key Files** (in `train_inference_python/`):
+3. **Key Files** (in `Python_MATLAB_Codes/train_inference_python/`):
    - `models/twostage_Unet.py`: 2D U-Net architecture
    - `models/twostage_Unet3D.py`: 3D U-Net architecture
    - `models/twostage_RCAN3D.py`: 3D Residual Channel Attention Network
@@ -129,9 +132,12 @@ python psf_test_3d.py   # 3D convolution test
    - `utils/augment_sim_img.py`: Data augmentation for SIM images
    - Training scripts: `Train_ZSDeconvNet_2D.py`, `Train_ZSDeconvNet_3D.py`, `Train_ZSDeconvNet_2DSIM.py`, `Train_ZSDeconvNet_3DSIM.py`
    - Inference scripts: `Infer_2D.py`, `Infer_3D.py`
-   - `DataAugmFor2d_python.py`: Python-based data augmentation for 2D datasets (replaces MATLAB)
-   - `DataAugmFor3d_python.py`: Python-based data augmentation for 3D datasets (replaces MATLAB)
-   - `custom_script/`: Custom training/inference shell scripts and data augmentation copies
+
+4. **Custom Files** (at repo root):
+   - `data_augmentation/augment_2d.py`: Python-based 2D data augmentation (replaces MATLAB)
+   - `data_augmentation/augment_3d.py`: Python-based 3D data augmentation (replaces MATLAB)
+   - `psf/generate_psf.py`: PSF generation
+   - `scripts/`: Custom training/inference shell scripts
 
 ### Data Structure
 Training data should be organized as:
@@ -156,6 +162,8 @@ For zero-shot training, only input images are needed with data augmentation.
 
 ## Key Parameters
 
+See `docs/notes.md` for detailed parameter explanations with descriptions.
+
 ### Training Parameters
 - `--gpu_id`: GPU device ID
 - `--iterations`: Total training iterations
@@ -178,13 +186,16 @@ For zero-shot training, only input images are needed with data augmentation.
 
 ## Development Notes
 
+### Upstream Modifications
+Some original author files have been modified. All changes are marked with `# MODIFIED:` comments. See `docs/notes.md` for the complete list.
+
 ### GPU Memory Management
 - Set `--gpu_memory_fraction` to limit GPU usage
 - Use `--mixed_precision_training` for memory efficiency
 - Adjust `--batch_size` based on available memory
 
 ### Model Saving
-- Models saved in `train_inference_python/trained_models/` (2D and 3D subdirectories)
+- Models saved in `Python_MATLAB_Codes/train_inference_python/trained_models/` (2D and 3D subdirectories)
 - Weights saved as `.h5` files at specified intervals
 - Configuration saved as `config.txt`
 - Logs saved to `graph/` subdirectory for TensorBoard monitoring
@@ -205,7 +216,7 @@ For zero-shot training, only input images are needed with data augmentation.
 1. **CUDA compatibility**: Ensure TensorFlow 2.5.0 matches CUDA 11.3-11.4/cuDNN 8.2
 2. **Memory errors**: Reduce `--batch_size` or patch dimensions (`--input_x/y/z`)
 3. **PSF format**: Verify PSF dimensions are odd numbers and properly normalized
-4. **Working directory**: Always run training/inference from `train_inference_python/` directory
+4. **Working directory**: Always run training/inference from `Python_MATLAB_Codes/train_inference_python/` directory
 5. **Demo scripts**: Edit absolute paths in `.sh` files before running
 6. **Data organization**: Ensure training data follows `data_dir/folder/input/` and `data_dir/folder/gt/` structure
 
@@ -219,9 +230,9 @@ For zero-shot training, only input images are needed with data augmentation.
 
 ## Quick Start Workflow
 
-1. **Setup environment**: Use `Conda_env/zs-deconvnet_environment.yml` or install manually
-2. **Prepare data**: Run data augmentation scripts to generate training pairs
-3. **Generate PSF**: Use `Python_PSF/generate_psf.py` for your optical setup
-4. **Train model**: Edit and run demo training scripts from `train_inference_python/`
+1. **Setup environment**: Use `envs/tensorflow.yml` or install manually
+2. **Prepare data**: Run `data_augmentation/augment_2d.py` or `augment_3d.py` to generate training pairs
+3. **Generate PSF**: Use `psf/generate_psf.py` for your optical setup
+4. **Train model**: Edit and run demo training scripts from `Python_MATLAB_Codes/train_inference_python/`
 5. **Run inference**: Edit and run demo inference scripts
 6. **Monitor training**: Use TensorBoard: `tensorboard --logdir [model_dir]/graph`

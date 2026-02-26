@@ -1,4 +1,4 @@
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../Python_MATLAB_Codes/train_inference_python"
 
 source "$(conda info --base)/etc/profile.d/conda.sh" 2>/dev/null || source ~/anaconda3/etc/profile.d/conda.sh
 conda activate zs-deconvnet

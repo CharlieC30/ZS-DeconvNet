@@ -1,10 +1,10 @@
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../Python_MATLAB_Codes/train_inference_python"
 
 source "$(conda info --base)/etc/profile.d/conda.sh" 2>/dev/null || source ~/anaconda3/etc/profile.d/conda.sh
 conda activate zs-deconvnet
 
 python Train_ZSDeconvNet_3D.py \
-  --psf_path '../../Python_PSF/PSFoutput/other/PSF_XY1.88um_Z15.04um_oddZ_118.tif' \
+  --psf_path '../../psf/output/other/PSF_XY1.88um_Z15.04um_oddZ_118.tif' \
   --data_dir './augmented_datasets/augmented_datasets_3d/iUExM/' \
   --folder 'iUExM_roi_0916_1550_100' \
   --test_images_path '../../Raw_Data/FromGary/input/iUExM/roiC_crop128_1128.tif' \

@@ -97,9 +97,9 @@ def main():
     print()
 
     base_dir = Path(__file__).parent
-    input_dir = base_dir / "PSFtest" / "PSFtest_input"
-    output_dir = base_dir / "PSFtest" / "PSFtest_output"
-    psf_dir = base_dir / "PSFoutput"
+    input_dir = base_dir / "test" / "input"
+    output_dir = base_dir / "test" / "output"
+    psf_dir = base_dir / "output"
 
     image_path = input_dir / args.image
     if not image_path.exists():

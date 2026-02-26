@@ -89,7 +89,7 @@ def create_optical_psf_file(dxy=92.6, dz=92.6, SizeXY=257, SizeZ=1, wavelength=5
     filename += ".tif"
 
     base_dir = Path(__file__).parent
-    output_path = base_dir / "PSFoutput" / "optical" / filename
+    output_path = base_dir / "output" / "optical" / filename
     saved_path = save_psf_tiff(psf, output_path)
 
     print(f"Generated optical PSF: {filename}")
@@ -103,7 +103,7 @@ def create_gaussian_psf_file(size=31, sigma=3.0):
     filename = f"PSF_gaussian_sigma{sigma}_size{size}.tif"
 
     base_dir = Path(__file__).parent
-    output_path = base_dir / "PSFoutput" / "gaussian" / filename
+    output_path = base_dir / "output" / "gaussian" / filename
     saved_path = save_psf_tiff(psf, output_path)
 
     print(f"Generated Gaussian PSF: {filename} (sigma={sigma} pixels)")

@@ -84,9 +84,9 @@ def main():
     args = parser.parse_args()
 
     base_dir = Path(__file__).parent
-    input_path = base_dir / "PSFtest" / "PSFtest_input" / args.input
-    psf_path = base_dir / "PSFoutput" / "optical" / args.psf
-    output_dir = base_dir / "PSFtest" / "PSFtest_output"
+    input_path = base_dir / "test" / "input" / args.input
+    psf_path = base_dir / "output" / "optical" / args.psf
+    output_dir = base_dir / "test" / "output"
 
     if not input_path.exists():
         print(f"Input not found: {input_path}")

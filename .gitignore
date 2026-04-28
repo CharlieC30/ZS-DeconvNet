@@ -26,29 +26,32 @@ env/
 # Screenshots
 screenshots/
 
-# Project data directories (upstream)
+# Upstream extras (kept locally, not tracked)
+Fiji_Plugin/
 Python_MATLAB_Codes/saved_models/
 
-# Training data and models
+# Historical training artifacts (kept in place, untracked)
 Python_MATLAB_Codes/train_inference_python/augmented_datasets/
 Python_MATLAB_Codes/train_inference_python/trained_models/
 
-# PSF outputs - ignore generated files but keep tracked ones in other/
-psf/output/**/*.tif
-psf/output/**/*.tiff
-!psf/output/other/*.tif
-!psf/output/other/*.tiff
-!psf/output/other/note.txt
+# New training outputs (created on demand)
+outputs/
 
-psf/test/**/*.tif
-psf/test/**/*.tiff
+# PSF outputs - ignore generated files but keep reference ones in other/
+custom/psf/output/**/*.tif
+custom/psf/output/**/*.tiff
+!custom/psf/output/other/*.tif
+!custom/psf/output/other/*.tiff
+!custom/psf/output/other/note.txt
+
+custom/psf/test/**/*.tif
+custom/psf/test/**/*.tiff
 
 # Raw_Data
+Raw_Data/lab_data/
 Raw_Data/upstream_demo/
-Raw_Data/lab_data/input/
-Raw_Data/lab_data/test_Fiji_GaussianBlur/
-Raw_Data/lab_data/sample_data/*.tif
-Raw_Data/lab_data/sample_data/*.tiff
+Raw_Data/examples/*.tif
+Raw_Data/examples/*.tiff
 
-# Project config
+# Project config (Claude Code local file)
 CLAUDE.md

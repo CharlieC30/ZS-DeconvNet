@@ -1,11 +1,7 @@
-# Python cache and compiled files
+# Python
 __pycache__/
 *.py[cod]
 *.so
-*.egg
-*.egg-info/
-dist/
-build/
 
 # Virtual environments
 .venv/
@@ -18,13 +14,6 @@ env/
 *.swp
 *~
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Jupyter
-.ipynb_checkpoints/
-
 # Testing
 .pytest_cache/
 .coverage
@@ -34,40 +23,32 @@ Thumbs.db
 *.tmp
 *.log
 
-# Screenshots (personal use, not tracked)
-screenshots/*
-!screenshots/.gitkeep
+# Screenshots
+screenshots/
 
 # Project data directories (upstream)
 Python_MATLAB_Codes/saved_models/
-Python_MATLAB_Codes/your_augmented_datasets/
 
-# Training data and models - ignore files but preserve directory structure
-Python_MATLAB_Codes/train_inference_python/augmented_datasets/**/*
-!Python_MATLAB_Codes/train_inference_python/augmented_datasets/**/.gitkeep
-Python_MATLAB_Codes/train_inference_python/trained_models/**/*
-!Python_MATLAB_Codes/train_inference_python/trained_models/**/.gitkeep
+# Training data and models
+Python_MATLAB_Codes/train_inference_python/augmented_datasets/
+Python_MATLAB_Codes/train_inference_python/trained_models/
 
-# PSF outputs - ignore generated files but keep structure
+# PSF outputs - ignore generated files but keep tracked ones in other/
 psf/output/**/*.tif
 psf/output/**/*.tiff
-!psf/output/**/.gitkeep
 !psf/output/other/*.tif
 !psf/output/other/*.tiff
 !psf/output/other/note.txt
 
 psf/test/**/*.tif
 psf/test/**/*.tiff
-!psf/test/**/.gitkeep
 
-# Raw_Data with fine-grained control for FromGary
-Raw_Data/*
-!Raw_Data/FromGary/
-!Raw_Data/FromGary/.gitkeep
-Raw_Data/FromGary/input/
-Raw_Data/FromGary/test_Fiji_GaussianBlur/
-!Raw_Data/FromGary/sample_data/
-!Raw_Data/FromGary/sample_data/.gitkeep
-!Raw_Data/FromGary/sample_data/*.md
-Raw_Data/FromGary/sample_data/*.tif
-Raw_Data/FromGary/sample_data/*.tiff
+# Raw_Data
+Raw_Data/upstream_demo/
+Raw_Data/lab_data/input/
+Raw_Data/lab_data/test_Fiji_GaussianBlur/
+Raw_Data/lab_data/sample_data/*.tif
+Raw_Data/lab_data/sample_data/*.tiff
+
+# Project config
+CLAUDE.md

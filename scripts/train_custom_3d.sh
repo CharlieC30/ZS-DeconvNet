@@ -7,7 +7,7 @@ python Train_ZSDeconvNet_3D.py \
   --psf_path '../../psf/output/other/PSF_XY1.88um_Z15.04um_oddZ_118.tif' \
   --data_dir './augmented_datasets/augmented_datasets_3d/iUExM/' \
   --folder 'iUExM_roi_0916_1550_100' \
-  --test_images_path '../../Raw_Data/FromGary/input/iUExM/roiC_crop128_1128.tif' \
+  --test_images_path '../../Raw_Data/lab_data/input/iUExM/roiC_crop128_1128.tif' \
   --save_weights_dir './my_models_3d' \
   --save_weights_suffix '_PSF_XY1.88um_Z15.04um_oddZ_118_upsample0' \
   --model 'twostage_RCAN3D' \

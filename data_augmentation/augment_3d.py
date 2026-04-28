@@ -368,7 +368,7 @@ class DataAugmFor3D:
 if __name__ == "__main__":
     # Parameters correspond to MATLAB version
     augmentor = DataAugmFor3D(
-        data_path='../../Raw_Data/FromGary/input/iUExM/iUExM_roi.tif',
+        data_path='../../Raw_Data/lab_data/input/iUExM/iUExM_roi.tif',
         save_path='./augmented_datasets/augmented_datasets_3d/iUExM/',
         seg_x=64,
         seg_y=64,

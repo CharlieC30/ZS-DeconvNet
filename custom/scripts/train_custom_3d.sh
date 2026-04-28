@@ -1,14 +1,14 @@
-cd "$(dirname "$0")/../Python_MATLAB_Codes/train_inference_python"
+cd "$(dirname "$0")/../../Python_MATLAB_Codes/train_inference_python"
 
 source "$(conda info --base)/etc/profile.d/conda.sh" 2>/dev/null || source ~/anaconda3/etc/profile.d/conda.sh
 conda activate zs-deconvnet
 
 python Train_ZSDeconvNet_3D.py \
-  --psf_path '../../psf/output/other/PSF_XY1.88um_Z15.04um_oddZ_118.tif' \
-  --data_dir './augmented_datasets/augmented_datasets_3d/iUExM/' \
+  --psf_path '../../custom/psf/output/other/PSF_XY1.88um_Z15.04um_oddZ_118.tif' \
+  --data_dir '../../outputs/augmented_datasets/3d/iUExM/' \
   --folder 'iUExM_roi_0916_1550_100' \
   --test_images_path '../../Raw_Data/lab_data/input/iUExM/roiC_crop128_1128.tif' \
-  --save_weights_dir './my_models_3d' \
+  --save_weights_dir '../../outputs/trained_models/3d/' \
   --save_weights_suffix '_PSF_XY1.88um_Z15.04um_oddZ_118_upsample0' \
   --model 'twostage_RCAN3D' \
   --upsample_flag 0 \

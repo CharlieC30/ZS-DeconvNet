@@ -464,12 +464,12 @@ def DataAugmFor2d_python(data_path: str,
         beta1_desc = f"{beta1[0]}" if beta1[0] == beta1[1] else f"{beta1[0]}-{beta1[1]}"
         beta2_desc = f"{beta2[0]:.1f}" if beta2[0] == beta2[1] else f"{beta2[0]:.1f}-{beta2[1]:.1f}"
         alpha_desc = f"{alpha[0]}" if alpha[0] == alpha[1] else f"{alpha[0]}-{alpha[1]}"
-        output_dir = f"./augmented_datasets/augmented_datasets_2d/beta1_{beta1_desc}_beta2_{beta2_desc}_alpha{alpha_desc}_SegNum{total_seg_num}/"
+        output_dir = f"../../outputs/augmented_datasets/2d/beta1_{beta1_desc}_beta2_{beta2_desc}_alpha{alpha_desc}_SegNum{total_seg_num}/"
 
     input_dir = os.path.join(output_dir, "input")
     gt_dir = os.path.join(output_dir, "gt")
 
-    os.makedirs("./augmented_datasets/augmented_datasets_2d", exist_ok=True)
+    os.makedirs("../../outputs/augmented_datasets/2d", exist_ok=True)
     os.makedirs(output_dir, exist_ok=True)
 
     if os.path.exists(input_dir):

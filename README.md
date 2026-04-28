@@ -12,131 +12,122 @@ A customized development version of **ZS-DeconvNet** — a zero-shot learning de
 
 This fork extends the original ZS-DeconvNet with:
 
-- **Python-based PSF generation** (`psf/`) — optical and Gaussian PSF generation with Born & Wolf theory, replacing MATLAB dependency
-- **Python data augmentation** (`data_augmentation/`) — 2D and 3D data augmentation scripts that replace the original MATLAB-based pipeline
-- **Custom training/inference scripts** (`scripts/`) — tailored for specific microscopy datasets (AISR, iUExM)
-- **Pre-configured Conda environments** (`envs/`) — ready-to-use environment files for both TensorFlow and PyTorch setups
-- **Minor modifications to upstream code** — marked with `# MODIFIED:` comments; see `docs/notes.md` for details
+- **Python-based PSF generation** (`custom/psf/`) — optical and Gaussian PSF generation with Born & Wolf theory, replacing MATLAB dependency
+- **Python data augmentation** (`custom/data_augmentation/`) — 2D and 3D augmentation scripts that replace the original MATLAB-based pipeline
+- **Custom training/inference scripts** (`custom/scripts/`) — tailored for specific microscopy datasets (AISR, iUExM)
+- **Pre-configured Conda environments** (`custom/envs/`) — ready-to-use environment files for both TensorFlow and PyTorch setups
+- **Minor modifications to upstream code** — marked with `# MODIFIED:` comments; see `custom/docs/notes.md` for details
 
 ## Directory Structure
 
-**Naming convention**: Uppercase directories = original author's code (unchanged), lowercase directories = custom additions.
+The repository separates upstream code (under `Python_MATLAB_Codes/`) from this fork's additions (under `custom/`). Training outputs land in `outputs/`. Raw input data lives under `Raw_Data/`.
 
 ```
 ZS-DeconvNet/
 │
-│ ── Original author's code (preserved from upstream) ──
-│
-├── Python_MATLAB_Codes/              # Original TensorFlow 2.5.0 implementation
-│   ├── train_inference_python/       # Training and inference scripts
+├── Python_MATLAB_Codes/              # Upstream code (preserved unchanged)
+│   ├── train_inference_python/       # Training and inference entry points
+│   │   ├── Train_*.py / Infer_*.py   # Original training and inference scripts
 │   │   ├── models/                   # U-Net 2D/3D, RCAN 3D architectures
 │   │   ├── utils/                    # Loss functions, data loader, utilities
-│   │   ├── train_demo_*.sh           # Demo training scripts
-│   │   ├── infer_demo_*.sh           # Demo inference scripts
+│   │   ├── train_demo_*.sh           # Original demo training scripts
+│   │   ├── infer_demo_*.sh           # Original demo inference scripts
 │   │   ├── requirements.txt          # Original pip dependencies
-│   │   ├── trained_models/           # Trained model weights (not in git)
-│   │   └── augmented_datasets/       # Generated training data (not in git)
-│   ├── data_augment_recorrupt_matlab/ # Original MATLAB augmentation code
-│   └── saved_models/                  # Original pre-trained models
-├── Fiji_Plugin/                       # Original Fiji/ImageJ plugin
-├── Raw_Data/                          # Experimental raw data (mostly gitignored)
+│   │   ├── trained_models/           # Historical training outputs (gitignored)
+│   │   └── augmented_datasets/       # Historical augmented data (gitignored)
+│   └── data_augment_recorrupt_matlab/ # Upstream MATLAB augmentation code
 │
-│ ── Custom additions (this fork) ──
+├── custom/                           # Fork-specific additions
+│   ├── psf/                          # PSF generation and testing
+│   │   ├── generate_psf.py           # Optical and Gaussian PSF generation
+│   │   ├── psf_test_2d.py            # 2D PSF convolution testing
+│   │   └── psf_test_3d.py            # 3D PSF convolution testing
+│   ├── data_augmentation/            # Python data augmentation
+│   │   ├── augment_2d.py             # 2D augmentation
+│   │   └── augment_3d.py             # 3D augmentation (used in this fork)
+│   ├── scripts/                      # Shell scripts for training and inference
+│   ├── envs/                         # Conda env files and pip requirements
+│   └── docs/                         # Notes and parameter reference
+│       └── notes.md
 │
-├── psf/                              # PSF generation and testing (replaces MATLAB)
-│   ├── generate_psf.py               # Optical & Gaussian PSF generation
-│   ├── psf_test_2d.py                # 2D PSF convolution testing (PyTorch)
-│   └── psf_test_3d.py                # 3D PSF convolution testing (SciPy)
-├── data_augmentation/                # Python data augmentation (replaces MATLAB)
-│   ├── augment_2d.py                 # 2D augmentation with noise generation
-│   └── augment_3d.py                 # 3D augmentation with noise generation
-├── scripts/                          # Custom shell scripts for training/inference
-├── envs/                             # Environment configurations
-│   ├── tensorflow.yml                # Conda env: TF 2.5 + CUDA 11.3
-│   ├── pytorch.yml                   # Conda env: PyTorch 1.13
-│   └── requirements.txt              # pip dependencies
-├── docs/                             # Documentation and notes
-│   └── notes.md                      # Parameter reference, architecture notes, upstream diffs
-└── screenshots/                      # Personal screenshots (gitignored)
+├── outputs/                          # Future training outputs (gitignored)
+│   ├── trained_models/3d/...         # New training runs land here
+│   └── augmented_datasets/3d/...     # Augmented data produced from custom/data_augmentation/
+│
+├── Raw_Data/                         # Raw inputs (most subtrees gitignored)
+│   ├── README.md                     # Data overview and source links
+│   ├── upstream_demo/                # Sample data from upstream Zenodo (gitignored)
+│   ├── lab_data/                     # Lab-internal data (untracked)
+│   └── examples/                     # Public-facing example data (placeholder)
+│
+└── README.md / .gitignore
 ```
+
+`Fiji_Plugin/` (the upstream ImageJ plugin) is kept locally but not tracked in git, since this fork does not exercise the Fiji integration path.
 
 ## Quick Start
 
 ### 1. Environment Setup
 
 ```bash
-# Option A: Use pre-configured Conda environment (recommended)
-conda env create -f envs/tensorflow.yml
+# Recommended: pre-configured Conda environment
+conda env create -f custom/envs/tensorflow.yml
 conda activate zs-deconvnet
-
-# Option B: Manual setup
-conda create -n zs-deconvnet python=3.9.7
-conda activate zs-deconvnet
-pip install -r envs/requirements.txt
-conda install cudatoolkit==11.3.1 cudnn==8.2.1
-
-# Note: The original author's requirements.txt is also available at
-# Python_MATLAB_Codes/train_inference_python/requirements.txt (unchanged)
 ```
+
+The original author's `Python_MATLAB_Codes/train_inference_python/requirements.txt` is also available unchanged for reference.
 
 ### 2. PSF Generation
 
 ```bash
-cd psf/
-python generate_psf.py  # Edit parameters in script for your optical setup
+cd custom/psf/
+python generate_psf.py  # Edit parameters in the __main__ block for your optical setup
 ```
 
-### 3. Data Augmentation (Zero-shot)
+### 3. Data Augmentation (Zero-Shot)
 
 ```bash
-# 2D data augmentation
-python data_augmentation/augment_2d.py --input_dir [RAW_DATA_DIR]
-
-# 3D data augmentation
-python data_augmentation/augment_3d.py --data_path [RAW_DATA_DIR]
+# 3D data augmentation (used by this fork)
+python custom/data_augmentation/augment_3d.py
 ```
+
+The 2D version (`augment_2d.py`) is present but not exercised by the current workflow.
 
 ### 4. Training
 
 ```bash
+# Using the custom shell wrapper (handles cd, conda, args)
+./custom/scripts/train_custom_3d.sh
+
+# Or call upstream training directly
 cd Python_MATLAB_Codes/train_inference_python
-
-# 2D training
-python Train_ZSDeconvNet_2D.py --otf_or_psf_path [PSF_PATH] --data_dir [DATA_DIR] --folder [FOLDER_NAME]
-
-# 3D training
-python Train_ZSDeconvNet_3D.py --psf_path [PSF_PATH] --data_dir [DATA_DIR] --folder [FOLDER_NAME]
-
-# Or use demo/custom scripts:
-./train_demo_2D.sh           # Original demo
-../../scripts/train_custom_3d.sh  # Custom 3D training
+python Train_ZSDeconvNet_3D.py --psf_path [PSF] --data_dir [DATA_DIR] --folder [FOLDER]
 ```
 
 ### 5. Inference
 
 ```bash
+# Using the custom shell wrapper
+./custom/scripts/infer_custom_3d.sh
+
+# Or call upstream inference directly
 cd Python_MATLAB_Codes/train_inference_python
-
-# 2D inference
-python Infer_2D.py --input_dir [INPUT_PATH] --load_weights_path [WEIGHTS_PATH]
-
-# 3D inference
-python Infer_3D.py --input_dir [INPUT_PATH] --load_weights_path [WEIGHTS_PATH]
+python Infer_3D.py --input_dir [INPUT] --load_weights_path [WEIGHTS]
 ```
 
 ## Architecture
 
-The model uses a **two-stage architecture**:
+The model uses a two-stage architecture:
 
-1. **Stage 1 (Denoising)**: U-Net that removes noise from the input image
-2. **Stage 2 (Deconvolution)**: Network that performs deconvolution using PSF-based frequency domain loss, with optional 2x super-resolution
+1. **Stage 1 (Denoising)**: U-Net or RCAN that removes noise from the input image
+2. **Stage 2 (Deconvolution)**: Network that performs deconvolution using a PSF-based frequency domain loss, with optional 2x super-resolution
 
 Supported model architectures:
-- `twostage_Unet` — 2D U-Net (for wide-field microscopy)
-- `twostage_Unet3D` — 3D U-Net (for confocal, LLSM)
-- `twostage_RCAN3D` — 3D Residual Channel Attention Network (for confocal, LLSM, SIM)
+- `twostage_Unet` — 2D U-Net (wide-field microscopy)
+- `twostage_Unet3D` — 3D U-Net (confocal, LLSM)
+- `twostage_RCAN3D` — 3D Residual Channel Attention Network (confocal, LLSM, SIM)
 
-For detailed parameter explanations and architecture notes, see [`docs/notes.md`](docs/notes.md).
+For detailed parameter explanations and architecture notes, see [`custom/docs/notes.md`](custom/docs/notes.md).
 
 ## Acknowledgments
 

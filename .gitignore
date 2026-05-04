@@ -14,6 +14,9 @@ env/
 *.swp
 *~
 
+# Jupyter
+.ipynb_checkpoints/
+
 # Testing
 .pytest_cache/
 .coverage

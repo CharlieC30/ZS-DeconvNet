@@ -3,5 +3,3 @@ imageio
 tifffile
 scipy==1.7.1
 opencv-python
-numpy
-matplotlib

@@ -53,8 +53,12 @@ custom/psf/test/**/*.tiff
 # Raw_Data
 Raw_Data/lab_data/
 Raw_Data/upstream_demo/
-Raw_Data/examples/*.tif
-Raw_Data/examples/*.tiff
+Raw_Data/examples/**/*.tif
+Raw_Data/examples/**/*.tiff
 
 # Project config (Claude Code local file)
 CLAUDE.md
+
+# Old script templates
+custom/scripts/train_custom_3d.sh
+custom/scripts/infer_custom_3d.sh

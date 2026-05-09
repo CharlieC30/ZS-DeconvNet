@@ -1,16 +1,12 @@
 cd "$(dirname "$0")/../../Python_MATLAB_Codes/train_inference_python"
 
-source "$(conda info --base)/etc/profile.d/conda.sh" 2>/dev/null || source ~/anaconda3/etc/profile.d/conda.sh
-conda activate zs-deconvnet
-
 export TF_FORCE_GPU_ALLOW_GROWTH=true
 # export CUDA_VISIBLE_DEVICES=1
 
 python Infer_3D.py \
-  --input_dir 'data/ori_input/iUExM/iUExM_roi.tif' \
-  --load_weights_path '../../outputs/trained_models/3d/iUExM_roi_0916_1550_100_twostage_RCAN3D_PSF_XY1.88um_Z15.04um_oddZ_118_upsample0/weights_500.h5' \
+  --input_dir '../../Raw_Data/examples/inputs/aisr.tif' \
+  --load_weights_path '../../outputs/trained_models/3d/aisr_example_run_twostage_RCAN3D__PSF_XY1.88um_Z15.04um_oddZ_118__upsample0__dx1dz2/weights_500.h5' \
   --model 'twostage_RCAN3D' \
-  --background 100 \
   --num_seg_window_x 4 \
   --num_seg_window_y 4 \
   --num_seg_window_z 4 \
@@ -21,5 +17,3 @@ python Infer_3D.py \
   --insert_z 2 \
   --upsample_flag 0 \
   --Fourier_damping_flag 0
-
-echo "inference done!"

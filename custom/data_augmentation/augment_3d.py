@@ -38,7 +38,8 @@ class DataAugmFor3D:
         self.sum_thresh = 0.01 * seg_x * seg_y * seg_z
 
         # Create output directories
-        self.save_training_path = self.save_path / f'Zsize{seg_z}_Xsize{seg_x}'
+        # MODIFIED: removed Zsize{seg_z}_Xsize{seg_x} auto-subfolder so save_path is used directly
+        self.save_training_path = self.save_path
         self.input_path = self.save_training_path / 'input'
         self.gt_path = self.save_training_path / 'gt'
         
@@ -367,15 +368,26 @@ class DataAugmFor3D:
 # Example usage
 if __name__ == "__main__":
     # Parameters correspond to MATLAB version
+    # aisr
     augmentor = DataAugmFor3D(
-        data_path='../../Raw_Data/lab_data/input/iUExM/iUExM_roi.tif',
-        save_path='../../outputs/augmented_datasets/3d/iUExM/',
+        data_path='../../Raw_Data/examples/inputs/aisr.tif',
+        save_path='../../outputs/augmented_datasets/3d/aisr/aisr_example_run',
         seg_x=64,
         seg_y=64,
         seg_z=13,
         seg_num=100,
         rot_flag=True
     )
+    # iUExM
+    # augmentor = DataAugmFor3D(
+    #     data_path='../../Raw_Data/examples/inputs/iUExM.tif',
+    #     save_path='../../outputs/augmented_datasets/3d/iUExM/iUExM_example_run',
+    #     seg_x=64,
+    #     seg_y=64,
+    #     seg_z=13,
+    #     seg_num=100,
+    #     rot_flag=True
+    # )
 
     # Run augmentation
     augmentor.run()

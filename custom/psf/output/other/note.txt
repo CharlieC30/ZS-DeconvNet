@@ -1,16 +1,15 @@
 # PSF Files in this Directory
 
 ## Source
-- PSF_XY1.88um_Z15.04um.tiff
-  老師提供的原始 PSF 文件
+- PSF_XY1.88um_Z15.04um.tiff      (lab original data)
 
 ## Voxel Size Variants
-後綴數字代表 voxel size：
-- PSF_XY1.88um_Z15.04um_oddZ.tif       (基礎版本)
+The suffix number indicates voxel size:
+- PSF_XY1.88um_Z15.04um_oddZ.tif       (base version)
 - PSF_XY1.88um_Z15.04um_oddZ_111.tif   (voxelsize: 111)
 - PSF_XY1.88um_Z15.04um_oddZ_112.tif   (voxelsize: 112)
 - PSF_XY1.88um_Z15.04um_oddZ_114.tif   (voxelsize: 114)
 - PSF_XY1.88um_Z15.04um_oddZ_118.tif   (voxelsize: 118)
 
 ## File Format
-- oddZ: 使用奇數 Z 層數
+- oddZ: uses odd number of Z slices

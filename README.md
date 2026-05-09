@@ -14,59 +14,30 @@ conda install cudatoolkit==11.3.1 cudnn==8.2.1
 pip install -r custom/envs/tensorflow_requirement.txt
 ```
 
-## Quick Start
-
-PSF generation:
-
-```bash
-python custom/psf/generate_psf.py
-```
-
-3D data augmentation:
-
-```bash
-python custom/data_augmentation/augment_3d.py
-```
-
-Training:
-
-```bash
-./custom/scripts/train_custom_3d.sh
-```
-
-Inference:
-
-```bash
-./custom/scripts/infer_custom_3d.sh
-```
-
-Additional training and inference scripts are under `Python_MATLAB_Codes/train_inference_python/`.
-
-## Repository Structure
+## Repository structure
 
 ```
 ZS-DeconvNet/
 ├── README.md
 ├── .gitignore
-│
-├── custom/                      # PSF, augmentation, scripts, env files
-│   ├── psf/
-│   ├── data_augmentation/
-│   ├── scripts/
-│   ├── envs/
-│   └── docs/
-│
-├── Python_MATLAB_Codes/         # Python and MATLAB implementation
-│   ├── train_inference_python/
-│   └── data_augment_recorrupt_matlab/
-│
-├── Raw_Data/                    # raw inputs
-│   ├── upstream_demo/
-│   ├── lab_data/
-│   └── examples/
-│
-└── outputs/                     # training outputs
+├── custom/                      # PSF tools, augmentation, scripts, env files
+├── Python_MATLAB_Codes/         # Python and MATLAB training/inference code
+├── Raw_Data/                    # Raw input data
+│   └── examples/                # Example data for end-to-end runs
+└── outputs/                     # Augmentation, training, and inference outputs
 ```
+
+## Pipeline
+
+1. **PSF preparation**: provide a 3D PSF `.tif` under `custom/psf/output/other/`, generated via `custom/psf/generate_psf.py` or supplied directly.
+2. **Data augmentation**: `custom/data_augmentation/augment_3d.py` produces `input/` and `gt/` patch pairs.
+3. **Training**: `Train_ZSDeconvNet_3D.py` consumes the patches plus the PSF and produces weights `.h5` files.
+4. **Inference**: `Infer_3D.py` loads the weights and a raw input image and produces denoised and deconvolved volumes.
+
+## Example data
+
+- Examples and how to run them are documented in [`Raw_Data/examples/README.md`](Raw_Data/examples/README.md).
+- Download data from [Google Drive](https://drive.google.com/drive/folders/1akov-thP6K8xpBy16ApzMKyDzUMO_1vK).
 
 ## Citation
 

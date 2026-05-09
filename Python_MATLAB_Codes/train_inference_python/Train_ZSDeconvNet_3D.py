@@ -115,14 +115,11 @@ test_images_path = args.test_images_path
 sample_path = save_weights_path + "/TestSampled/"
 valid_path = save_weights_path + "/TrainSampled/"
 
-if not os.path.exists(save_weights_dir):
-    os.mkdir(save_weights_dir)
-if not os.path.exists(save_weights_path):
-    os.mkdir(save_weights_path)
-if not os.path.exists(sample_path):
-    os.mkdir(sample_path)
-if not os.path.exists(valid_path):
-    os.mkdir(valid_path)
+# MODIFIED: use os.makedirs with exist_ok=True for recursive parent dir creation
+os.makedirs(save_weights_dir, exist_ok=True)
+os.makedirs(save_weights_path, exist_ok=True)
+os.makedirs(sample_path, exist_ok=True)
+os.makedirs(valid_path, exist_ok=True)
 
 with open(save_weights_path+"/config.txt","w") as f:
     f.write(str(args))

@@ -3,11 +3,6 @@ __pycache__/
 *.py[cod]
 *.so
 
-# Virtual environments
-.venv/
-venv/
-env/
-
 # IDE
 .vscode/
 .idea/
@@ -17,10 +12,6 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-# Testing
-.pytest_cache/
-.coverage
-
 # Backup files
 *.bak
 *.tmp
@@ -29,18 +20,18 @@ env/
 # Screenshots
 screenshots/
 
-# Upstream extras (kept locally, not tracked)
+# Upstream extras
 Fiji_Plugin/
 Python_MATLAB_Codes/saved_models/
 
-# Historical training artifacts (kept in place, untracked)
+# Historical training artifacts
 Python_MATLAB_Codes/train_inference_python/augmented_datasets/
 Python_MATLAB_Codes/train_inference_python/trained_models/
 
-# New training outputs (created on demand)
+# Training outputs
 outputs/
 
-# PSF outputs - ignore generated files but keep reference ones in other/
+# PSF outputs
 custom/psf/output/**/*.tif
 custom/psf/output/**/*.tiff
 !custom/psf/output/other/*.tif
@@ -56,9 +47,15 @@ Raw_Data/upstream_demo/
 Raw_Data/examples/**/*.tif
 Raw_Data/examples/**/*.tiff
 
-# Project config (Claude Code local file)
+# Claude Code local file
 CLAUDE.md
 
 # Old script templates
 custom/scripts/train_custom_3d.sh
 custom/scripts/infer_custom_3d.sh
+
+# Local-only files
+custom/data_augmentation/augment_2d.py
+custom/docs/notes.md
+custom/envs/pytorch_requirement.txt
+custom/envs/tensorflow_env.yml
